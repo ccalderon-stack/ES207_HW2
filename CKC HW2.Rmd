@@ -1,0 +1,259 @@
+---
+title: "ES207_HW2"
+author: "Cameron Calderon"
+output: html_document
+---
+1. Using the help documentation, provide an alternative useage for the function ncol()
+```{r}
+library(rmarkdown)
+```
+ncol returns number of columns, works for vectors, arrays, and data frames. Can return null
+NCOL does the same while treating argument as a 1-column matrix
+
+
+2. Make sure to clone the tutorial repo to a new repo in your GitHub account called es207_hw2. I will check your repo, so don’t skip this step!
+
+3. Convert RMarkdown_Demo_1.R into a well commented and easy to follow R Markdown document. Turn this in as a .pdf document separate from the rest of your homework assignment. Call it “yourlastname_demo_1.pdf”.
+
+4. Complete the remaining homework below as a well-commented and easy to follow R Markdown notebook with approriate accompanying text. Turn this in as a .html document. Call it “yourlastname_hw2.html”.
+
+5. Create and print a new vector, w that is a subset of the first 4 elements of vector v, where v <- c(8:19)
+```{r}
+v <- c(8:19)
+w <- v[1:4]
+```
+6. Create and print a new vector, h that is a subset of the middle 5 elements of vector d, where d <- c(8:20)
+```{r}
+d <- c(8:20)
+h <- d[5:9]
+```
+7. What is the length of vector w from above?
+```{r}
+length(w)
+```
+8. What are the 3 properties of a vector, other than its contents?.
+type, length, and attributes
+
+9. Can you predict the output of the following uses of c()? c(3,FALSE) c("a",1) c(4L,2)
+
+c(3,FALSE) -> (3,0)
+c("a",1) -> ("a","1")
+c(4L,2) -> (4,2)
+
+10. What are the 4 types of common atomic vectors? What are the 2 rare types?
+
+Common: logical, integer, double, character
+Rare: complex, raw
+
+11. Why is 1=="1" true? Why is -1 < FALSE true? Why is "one"< 2 false?
+1 (integer) gets treated as "1" (character), False (logical) gets treated as 0 (integer), 2 (integer) is treated as "2" (character)
+
+12. Why is the default missing value NA, a logical vector? What’s so special about logical vectors? Hint: think about c(FALSE,NA_character)
+logicals are the most easily coerced into a different type, this way non-missing data takes precedence over missing data.
+
+13. Provide the value of the last element in the result of the vector operation d * 2 from the vectors defined above.
+
+```{r}
+x <- c(4, 2, 17, 5)
+y <-x[c(1, 1, 3)]
+z <- c(5, 12, 13, 2, 3, 4, 5)
+x[length(x)]*2
+y[length(y)]*2
+z[length(z)]*2
+```
+
+14. Create a vector a with a sequence of 11 elements in it ranging from 0.6 to 1.9. Create another, logical vector b that identifies which elements in a are greater than or equal to 1.1. Print your results.
+
+```{r}
+a <- c(seq(from = 0.6, to = 1.9, length = 11))
+b <- which(a>1.1)
+b
+```
+
+15. Set all elements in vector a from above to 2.0 if they are greater than or equal to 1.1.
+```{r}
+a[a>1.1]<- 2
+a
+```
+
+16. Use str() to compare the results of using list() and c() on l and j for: l <-c(list(1,2),c(3,4)) and j=list(list(1,2),c(3,4))
+```{r}
+l <-c(list(1,2),c(3,4))
+j=list(list(1,2),c(3,4))
+str(l)
+str(j)
+```
+
+17. Show what happens when you use unlist() on l and j.
+```{r}
+unlist(l)
+unlist(j)
+```
+
+18. If factors are essentially integers under the hood, why do we use them, and not just use integers (e.g., 1s and 2s instead of “male”, “female”)?
+factors are used as labels, they also do not necessarily need to be ordered
+
+19. Using table(), provide the frequency of no and yes in my.fac.
+```{r}
+my.fac <- factor(c("yes", "yes", "no", "yes", "yes", "yes"))
+table(my.fac)
+```
+
+20. What does this R code below do? How are f1 and f2 different from f3?
+f1 <- factor(letters)
+levels(f1) <-rev(levels(f1))
+f2 <- rev(factor(letters))
+f3 <- factor(letters, levels=rev(letters))
+
+f1 generates factors from data, f2 reverses the order of the factors, f3 reverses levels of the factors
+
+21. If is.matrix(x) is TRUE, what will is.array(x) return?
+FALSE
+
+22. Why didn’t that work? Hint: read the errors
+f <- data.frame(kids=c("Jack","Jill"),ages=c(12,10,11))
+each column in a data frame must be the same length
+
+
+23. What does as.matrix() do when applied to a data frame with columns of different types?
+different types will get coerced into the most flexible type of atomic vector present
+
+
+24. What if we don’t have the same variable name? Change the data frame variables names using names(d2) <- c("ages","kids"). Then, use the help documentation to merge d1 and d2. Print your results.
+```{r}
+d1 <- data.frame(names = c("Jack", "Jill", "John"), states = c("CA", "IL", "IL"))
+d2 <- data.frame(ages = c(10, 7, 12), names = c("Jill", "Jillian", "Jack"))
+names(d2) <- c("ages","kids")
+d2 <- rbind(d2,list("15","Jill"))
+merge(d1,d2,by.x = "names", by.y = "kids", all.x = TRUE, all.y = TRUE, all=TRUE)
+```
+
+25. Can you have a data frame with 0 rows? What about 0 columns?
+yes
+
+26. Plot a histogram of all the Sepal.Width values in the dataset iris that are less than or equal to 3.0.
+```{r}
+hist(iris$Sepal.Width, xlim=c(0,3))
+```
+
+27. Try using apply on ‘d’. What happens? Why?
+error in match.fun
+apply only works on matrices and data frames
+sapply is needed instead
+
+28. What are the general elements of a function? Which elements are not required?
+Name, variables (optional), operating code, output (optional)
+
+29. How do you pass a value of an object from the local environment to the global environment (outside of a function)?
+use "<<-" when assigning a value to a local object
+
+30. What is the name of the R function that can help you identify errors in your function?
+warning()
+
+31. Aside from using the fucntion identified in 30. above, what is another way to troubleshoot your functions? Hint: we used this in our first function oddcount in homework 1.
+print messages at key points in the function
+
+32. What is the name of a function to write your own error messages when writing a function?.
+stop()
+
+33. Why do you want to keep your functions short?
+shorter functions tend to be less error prone
+
+34. What are local versus global variables? Why do they matter when you write functions?
+local variables are limited to the function they are used in, global variables can be used anywhere in the program even in multiple functions
+
+35. What happens if you write the function as following in the code below and test it on wavelength = 0.02 m?
+
+```{r}
+wave_to_freq <- function(wave) {
+   freq <- (299792458/wave)
+   freq }
+wave_to_freq(0.02)
+```
+
+
+36. Using the new function wave_to_freq(), what happens if you assign the function wave_to_freq() to object x and call x?
+```{r}
+x <- freq_to_wave <- function(freq) {
+   wave <- (299792458/freq)
+   wave}
+x
+```
+
+
+37. Write a function that converts nanometers (nm) to meters (m). Make sure to provide useful comments. Save the function as a .R script with a logical name (e.g., “nano_to_meter”) and push it to your es207_hw2 repo in GitHub.
+
+38.Write a function that can take wavelength in micrometers as an input, and output the equivalent value in Giga Herz (GHz).
+```{r}
+micm_to_GHz <- function(wave){
+     freq <- (299792.458/wave)
+     freq}
+```
+
+39. Using the function you wrote above, what radar band (provide the letter) corresponds to a wavelength of 30,000 micrometers? (Hint you may need to do some internet research about the frequency of different radar bands).
+```{r}
+micm_to_GHz(30000)
+```
+X band
+
+40. Write a for loop that caluculates the square of the first 10 elements in the vector x, where x <- rnorm(40)
+```{r}
+x <- rnorm(40)
+for (n in 1:10){print(x[n]^2)}
+```
+
+41. Write a while loop that prints the even numbers from 4 through 29.
+```{r}
+i <- 4
+while(TRUE)
+   {
+   print(i)
+     i <- i+2
+     if(i > 29)
+       {
+       break}}
+```
+
+
+42. Write a while loop that prints multiples of 10 from 100 to 190.
+```{r}
+j <- 10
+while(TRUE)
+   {
+   print(j)
+     j <- j+10
+     if(j > 190)
+       {
+       break}}
+```
+
+
+43. Create a 10 x 10 matrix of random numbers. Write a loop that replaces the 3rd row and 5th column of numbers with “ciao”.
+```{r}
+mat <- matrix(rnorm(100), nrow=10, ncol=10)
+mat
+for (n in 1:ncol(mat)){mat[3,n] <- "ciao"}
+for (n in 1:nrow(mat)){mat[n,5] <- "ciao"}
+mat
+```
+
+44. What is a loop? Can you provide me with a real-life example in either remote sensing or your own research where such a thing would be handy?.`
+A loop is an iterative process that repeats until some condition is met, applications include optimization i.e. energy minimization in molecular geometry.
+
+45. What does it mean to “grow” variables or datasets using a loop? Show an example of code that does this.
+Growing a dataset can involve adding elements as a loop iterates, for example, if you wanted all data fulfilling certain conditions you can loop the condition check at each element in the full set, if the condition is met that data point is added to the growing set and ignored if else.
+
+46. In 500 words or less, discuss why you would want to write loops, why some people look down on them in R, what the suggested alternative is.
+A loop can be used to repeat a commonly called code section in a program. Whenever possible, functions should be favored for efficiency since an un-optimized loop can cost a lot of computing time.
+
+47. Use lapply() and a function to find the coefficient of variation (the standard deviation divided by the mean) for all columns in the mtcars dataset.
+
+48. The function below scales a vector so it falls in the range [0, 1]. How would you apply it to every column of a data frame? How would you apply it to every numeric column in a data frame?
+scale01 <- function (x) {
+  rng <-range(x, na.rm=TRUE)
+  (x-rng[1] / rng[2] - rng[1])
+}
+
+49. Use both for loops and lapply() to fit linear models to the mtcars data frame using the formulas stored in this list:
+
+50. What are the sys.time() calculations for the loop and lapply() solutions above?
